@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jhansi — Administration Brief · ClimAgro Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════
+           GLOBAL RESET & TOKENS
+        ═══════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f0f4f8;
+            color: #1a2438;
+            overflow-x: hidden;
+        }
+
+        /* ─── SCROLLBARS ─── */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f4f8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(74,120,200,0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(74,120,200,0.5);
+        }
+
+        /* Cursor glow */
+        .cursor-glow {
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(74,120,200,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%,-50%);
+            z-index: 0;
+            transition: left 0.18s ease, top 0.18s ease;
+        }
+
+        /* Sticky nav */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 52px;
+            height: 68px;
+            background: rgba(240,244,248,0.95);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(74,120,200,0.15);
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .nav-brand img { height: 36px; width: auto; align-self: center; margin-right: 8px; }
+        .nav-product {
+            font-family: 'Fraunces', serif;
+            font-size: 22px; font-weight: 600;
+            letter-spacing: -0.02em; color: #1a2438;
+        }
+        .nav-product .glow-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            background: #4a78c8;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px #4a78c8;
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; box-shadow:0 0 10px #4a78c8; }
+            50%      { opacity:0.6; box-shadow:0 0 20px #4a78c8; }
+        }
+        .nav-by {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; color: #6a88b4;
+            letter-spacing: 0.12em; text-transform: uppercase;
+        }
+        .nav-cta {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 700;
+            color: #4a78c8; border: 1.5px solid #4a78c8;
+            padding: 8px 20px; border-radius: 4px;
+            text-decoration: none; letter-spacing: 0.05em;
+            transition: background 0.2s, color 0.2s; cursor: pointer;
+            background: transparent;
+        }
+        .nav-cta:hover { background: #4a78c8; color: #fff; }
+
+        /* Hero (section 1) */
+        #hero-1 {
+            position: relative;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 120px 52px 80px;
+            overflow: hidden;
+            background: #e4ecf8;
+        }
+        #hero-canvas {
+            position: absolute; inset: 0; z-index: 0; opacity: 0.55;
+        }
+        .hero1-inner {
+            position: relative; z-index: 2;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .hero1-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .hero1-left { display: flex; flex-direction: column; align-items: flex-start; }
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.2em;
+            color: #4a78c8; font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .hero-label::before {
+            content: ''; display: block;
+            width: 36px; height: 1px;
+            background: #4a78c8;
+        }
+        .hero1-h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(40px, 6vw, 76px);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: #1a2438;
+        }
+        .hero1-h1 em {
+            font-style: italic;
+            color: #4a78c8;
+            font-weight: 300;
+        }
+        .hero1-tagline {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(16px, 2vw, 20px);
+            line-height: 1.55;
+            color: rgba(26,36,56,0.65);
+            font-weight: 300;
+            max-width: 600px;
+            margin-bottom: 40px;
+            margin-top: 14px;
+        }
+        .hero1-right { display: flex; justify-content: center; }
+        .hero1-image-wrap {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(74,120,200,0.15);
+            border: 1px solid rgba(74,120,200,0.2);
+            background: #fff;
+        }
+        .hero1-img {
+            width: 100%; height: auto; display: block;
+        }
+        .hero1-stats {
+            display: flex; flex-wrap: wrap; gap: 12px;
+            margin-top: 40px;
+        }
+        .stat-pill {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(74,120,200,0.06);
+            border: 1px solid rgba(74,120,200,0.18);
+            padding: 10px 18px; border-radius: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; color: #1a3060;
+            transition: border-color 0.2s;
+        }
+        .stat-pill:hover { border-color: rgba(74,120,200,0.4); }
+        .stat-pill .snum {
+            font-size: 20px; font-weight: 600;
+            color: #4a78c8; letter-spacing: -0.02em; line-height: 1;
+        }
+        .scroll-nudge {
+            display: flex; align-items: center; gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.15em;
+            color: rgba(26,36,56,0.35); text-transform: uppercase;
+            margin-top: 24px;
+        }
+        .scroll-nudge .line {
+            width: 1px; height: 36px;
+            background: linear-gradient(to bottom, #4a78c8, transparent);
+            animation: drip 1.8s ease-in-out infinite;
+        }
+        @keyframes drip {
+            0%,100% { transform:scaleY(1); opacity:0.6; }
+            50%      { transform:scaleY(1.4); opacity:1; }
+        }
+
+        /* Reveal utility */
+        .reveal { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
+        .reveal.visible { opacity:1; transform:none; }
+
+        /* Section 2 — Jhansi Landing Hero */
+        #hero-2 {
+            background: #dae4f5;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 48px 52px 80px;
+            position: relative; overflow: hidden;
+        }
+        .hero2-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(74,120,200,.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74,120,200,.08) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+        .hero2-glow {
+            position: absolute;
+            top: 40%; left: 50%; transform: translate(-50%,-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(ellipse, rgba(74,120,200,.15) 0%, transparent 68%);
+            pointer-events: none;
+        }
+        .hero2-inner {
+            position: relative; z-index: 2;
+            display: grid; grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px; align-items: center;
+            max-width: 1280px; width: 100%;
+        }
+        .hero2-left { display: flex; flex-direction: column; align-items: flex-start; max-width: 660px; }
+        .hero2-kicker {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(74,120,200,0.1); border: 1px solid rgba(74,120,200,0.22);
+            color: #4a78c8; font-size: 10.5px; font-weight: 600; letter-spacing: .14em;
+            text-transform: uppercase; padding: 6px 16px; border-radius: 20px;
+            margin-bottom: 18px; font-family: 'JetBrains Mono', monospace;
+        }
+        .hero2-kicker-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: #4a78c8;
+            animation: blink 2.2s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+        .hero2-h1 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(2rem, 4.2vw, 3rem);
+            font-weight: 700; color: #1a2438; line-height: 1.15;
+            margin-bottom: 10px; letter-spacing: -0.01em;
+        }
+        .hero2-h1 em {
+            color: #4a78c8; font-style: italic;
+            font-family: 'Fraunces', serif; font-weight: 300;
+        }
+        .hero2-h2 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+            font-weight: 700; color: rgba(26,36,56,.85);
+            margin-bottom: 22px; letter-spacing: -0.01em;
+        }
+        .hero2-desc {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; line-height: 1.80;
+            color: rgba(26,36,56,.65);
+            max-width: 580px; margin-bottom: 34px; font-weight: 300;
+        }
+        .hero2-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-lime {
+            background: linear-gradient(135deg, #CCFF00, #b8f000);
+            color: #0d3526; font-size: 14px; font-weight: 700;
+            padding: 14px 30px; border-radius: 8px; border: none; cursor: pointer;
+            font-family: 'DM Sans', sans-serif; letter-spacing: .03em;
+            transition: all .22s; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 6px 24px rgba(180,255,0,.25); text-decoration: none;
+        }
+        .btn-lime:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(180,255,0,.4); }
+        .btn-ghost-2 {
+            background: transparent; color: #1a2438; font-size: 13.5px; font-weight: 500;
+            padding: 13px 24px; border-radius: 8px; border: 1.5px solid rgba(74,120,200,0.3);
+            cursor: pointer; font-family: 'DM Sans', sans-serif; letter-spacing: .02em;
+            transition: all .22s; display: inline-flex; align-items: center; gap: 7px;
+        }
+        .btn-ghost-2:hover { border-color: #4a78c8; color: #4a78c8; background: rgba(74,120,200,0.06); }
+
+        .hero2-right {
+            display: flex; flex-direction: column; gap: 20px;
+            align-items: flex-start;
+        }
+        .hero2-report-card {
+            width: 100%; border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(74,120,200,0.18);
+            border: 1px solid rgba(74,120,200,0.15);
+            background: #fff;
+        }
+        .hero2-stats {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 12px; width: 100%;
+        }
+        .hs2 {
+            background: rgba(74,120,200,0.06); border: 1px solid rgba(74,120,200,0.18);
+            border-radius: 8px; padding: 12px 10px; text-align: center;
+            transition: background .2s, border-color .2s;
+        }
+        .hs2:hover { background: rgba(74,120,200,0.12); border-color: rgba(74,120,200,0.3); }
+        .hs2-n { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 800; color: #4a78c8; line-height: 1; }
+        .hs2-l { font-size: 9px; color: rgba(26,36,56,.55); margin-top: 5px; line-height: 1.5; font-family: 'JetBrains Mono', monospace; }
+
+        /* Section 3 — Administrative Document Wrapper */
+        #press-content {
+            background: #eaeff8;
+            padding: 0;
+        }
+        .press-doc {
+            width: 100%;
+            background: #f8faff;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(74,120,200,0.15);
+        }
+        .press-flag {
+            background: #1a2e60; color: #f0f4ff;
+            padding: 0;
+            border-bottom: 1px solid rgba(74,120,200,0.15);
+        }
+        .press-flag-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+            font-family: 'Manrope', sans-serif;
+            max-width: 1280px; margin: 0 auto; width: 100%;
+            padding: 14px 52px;
+        }
+        .admin-body {
+            padding: 50px 52px;
+            color: #1a2438;
+            max-width: 1280px; margin: 0 auto; width: 100%;
+        }
+        .admin-lede {
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; line-height: 1.6;
+            color: #1a2438;
+            font-weight: 400;
+            padding: 16px 0 28px;
+            border-bottom: 1px solid rgba(74,120,200,0.15);
+            margin-bottom: 32px;
+        }
+        .admin-lede em {
+            font-style: italic;
+            font-family: 'Fraunces', serif;
+        }
+        .admin-lede .accent {
+            color: #e63946;
+            font-weight: 600;
+        }
+        .admin-sec-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+            color: #4a78c8; font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .admin-sec-label::before {
+            content: ''; width: 24px; height: 1px; background: #4a78c8;
+        }
+        .admin-mapblock {
+            display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+        .admin-mapblock .map-side svg { width: 100%; height: auto; max-width: 380px; }
+        .admin-mapblock .map-legend { font-size: 12px; line-height: 1.6; }
+        .admin-mapblock .legend-row {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+            padding-bottom: 12px; border-bottom: 1px solid rgba(74,120,200,0.1);
+        }
+        .admin-mapblock .legend-row:last-child { border-bottom: none; }
+        .admin-mapblock .legend-swatch {
+            width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0;
+        }
+        .admin-mapblock .legend-text strong { display: block; font-weight: 600; font-size: 13px; color: #1a2438; margin-bottom: 2px; }
+        .admin-mapblock .legend-text span { font-size: 12px; color: rgba(26,36,56,0.65); }
+
+        .admin-findings {
+            background: #dce8f8; color: #1a2438;
+            padding: 32px 36px;
+            border-radius: 8px;
+            margin: 36px 0;
+            border: 1px solid rgba(74,120,200,0.15);
+        }
+        .admin-findings h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 22px; font-weight: 600;
+            margin-bottom: 20px; letter-spacing: -0.01em;
+            color: #1a2438;
+        }
+        .findings-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+        }
+        .finding {
+            border-top: 1px solid rgba(74,120,200,0.3);
+            padding-top: 14px;
+        }
+        .finding .ftext { font-size: 13px; line-height: 1.6; color: rgba(26,36,56,0.75); }
+        .finding .fnum {
+            font-family: 'Fraunces', serif;
+            font-size: 36px; font-weight: 900; color: #4a78c8;
+            line-height: 1; letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .admin-chart-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+            margin-bottom: 36px;
+        }
+        .admin-chart {
+            background: #fff; border: 1px solid rgba(74,120,200,0.15);
+            padding: 20px 22px; border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(74,120,200,0.03);
+        }
+        .admin-chart svg {
+            width: 100%; height: auto; display: block;
+        }
+        .admin-chart h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 18px; font-weight: 600; margin-bottom: 4px; color: #1a2438;
+        }
+        .admin-chart .chart-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.05em; color: #6a88b4;
+            margin-bottom: 14px;
+        }
+
+        .admin-page2 {
+            border-top: 1px solid rgba(74,120,200,0.2);
+            margin-top: 40px; padding-top: 40px;
+            position: relative;
+        }
+        .admin-page2::before {
+            content: 'II';
+            position: absolute; left: 50%; top: -11px; transform: translateX(-50%);
+            background: #f8faff; padding: 0 14px;
+            font-family: 'Fraunces', serif;
+            font-size: 16px; font-weight: 600; color: #4a78c8;
+            font-style: italic;
+        }
+
+        .scope-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+            border: 1px solid rgba(74,120,200,0.15);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 36px;
+        }
+        .scope-cell {
+            padding: 18px 22px;
+            background: #fff;
+            border-right: 1px solid rgba(74,120,200,0.1);
+            border-bottom: 1px solid rgba(74,120,200,0.1);
+        }
+        .scope-cell:nth-child(even) { border-right: none; }
+        .scope-cell:nth-last-child(-n+2) { border-bottom: none; }
+        .scope-cell .scope-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: #6a88b4; font-weight: 600; margin-bottom: 6px;
+        }
+        .scope-cell .scope-value {
+            font-family: 'Fraunces', serif;
+            font-size: 20px; font-weight: 600; color: #1a2438; line-height: 1.2;
+        }
+        .scope-cell .scope-note { font-size: 11.5px; color: rgba(26,36,56,0.6); margin-top: 4px; }
+
+        .admin-quote {
+            font-family: 'Source Serif 4', serif;
+            font-size: 22px; line-height: 1.5;
+            font-style: italic; font-weight: 300;
+            color: #1a2438;
+            padding: 24px 0 24px 36px;
+            border-left: 3px solid #4a78c8;
+            margin: 32px 0;
+        }
+        .admin-quote .qsig {
+            display: block; font-size: 12px; font-style: normal;
+            font-family: 'Manrope', sans-serif; color: #6a88b4;
+            margin-top: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+        }
+
+        .report-panel {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 24px 28px;
+            margin: 36px 0 0;
+            border-radius: 8px;
+            background: #1a2e60;
+            color: #fff;
+            border: 1px solid rgba(74,120,200,0.2);
+        }
+        .report-panel-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #3ecb97;
+            margin-bottom: 6px;
+        }
+        .report-panel-title {
+            font-family: 'Fraunces', serif;
+            font-size: 18px;
+            line-height: 1.35;
+            font-weight: 600;
+            max-width: 680px;
+            color: #f0f4ff;
+        }
+        .report-panel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 22px;
+            border-radius: 4px;
+            background: #4a78c8;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+        .report-panel-btn:hover {
+            background: #6a90d8;
+            transform: translateY(-1px);
+        }
+
+        .admin-footer {
+            border-top: 1px solid rgba(74,120,200,0.15);
+            padding-top: 20px;
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: #6a88b4; letter-spacing: 0.05em;
+            font-family: 'Manrope', sans-serif;
+        }
+        .admin-footer a {
+            color: #4a78c8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .admin-footer a:hover {
+            color: #6a90d8;
+        }
+
+        /* Section 4 — CTA Footer */
+        #cta {
+            background: linear-gradient(160deg, #e4ecf8 0%, #dae4f5 60%, #ccd8f0 100%);
+            padding: 48px 52px 80px;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        #cta::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(74,120,200,.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74,120,200,.07) 1px, transparent 1px);
+            background-size: 44px 44px;
+            pointer-events: none;
+        }
+        .cta-bg-text {
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            font-family: 'Fraunces', serif;
+            font-size: clamp(80px, 14vw, 200px);
+            font-weight: 900;
+            color: rgba(74,120,200,0.08);
+            white-space: nowrap;
+            letter-spacing: -0.04em;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+        .cta-inner {
+            position: relative; z-index: 2;
+            max-width: 780px; margin: 0 auto;
+        }
+        .cta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; letter-spacing: 0.25em;
+            color: #4a78c8; text-transform: uppercase;
+            margin-bottom: 28px;
+            display: flex; align-items: center; justify-content: center; gap: 14px;
+        }
+        .cta-label::before { content: '//'; color: rgba(74,120,200,0.3); font-size: 13px; }
+        #cta h2 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 300; line-height: 1.05;
+            letter-spacing: -0.025em; color: #1a2438;
+            margin-bottom: 24px;
+        }
+        #cta h2 em {
+            font-style: italic; color: #4a78c8; font-weight: 300;
+        }
+        #cta > .cta-inner > p {
+            font-family: 'Source Serif 4', serif;
+            font-size: 17px; line-height: 1.7;
+            color: rgba(26,36,56,0.6); font-weight: 300;
+            max-width: 560px; margin: 0 auto 52px;
+        }
+        .cta-buttons {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+        .cta-btn-primary {
+            background: #4a78c8; color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 700;
+            padding: 16px 36px; border-radius: 3px;
+            text-decoration: none; letter-spacing: 0.04em;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+            border: none; cursor: pointer;
+        }
+        .cta-btn-primary:hover { background: #6a90d8; transform: translateY(-2px); }
+        .cta-btn-ghost {
+            background: transparent; color: rgba(26,36,56,0.75);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 500;
+            padding: 15px 32px; border-radius: 3px;
+            border: 1px solid rgba(74,120,200,0.3);
+            text-decoration: none; letter-spacing: 0.04em;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cta-btn-ghost:hover { border-color: #4a78c8; color: #4a78c8; }
+        .cta-contact {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: rgba(26,36,56,0.5);
+            letter-spacing: 0.08em;
+        }
+        .cta-contact a { color: rgba(26,36,56,0.6); text-decoration: none; }
+        .cta-contact a:hover { color: #4a78c8; }
+
+        /* Separator */
+        .section-sep {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(74,120,200,0.25), transparent);
+        }
+
+        /* PDF download gateway overlay */
+        .gateway-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(10, 20, 40, 0.6);
+            backdrop-filter: blur(12px);
+        }
+        .gateway-overlay.is-open {
+            display: flex;
+        }
+        .gateway-panel {
+            width: min(600px, 100%);
+            max-height: min(90vh, 720px);
+            overflow-y: auto;
+            background: #fff;
+            color: #1a2438;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(74,120,200, 0.15);
+            border: 1px solid rgba(74,120,200, 0.15);
+            font-family: 'Manrope', sans-serif;
+        }
+        .gateway-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .gateway-title {
+            color: #1a2438;
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .gateway-subtitle {
+            margin-top: 4px;
+            color: #6a88b4;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .gateway-close {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 auto;
+            border: 1px solid rgba(74,120,200, 0.15);
+            border-radius: 50%;
+            background: #fff;
+            color: #6a88b4;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gateway-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 14px;
+        }
+        .gateway-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .gateway-field.full {
+            grid-column: 1 / -1;
+        }
+        .gateway-field label {
+            color: #1a2438;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .gateway-field .required {
+            color: #e63946;
+        }
+        .gateway-field .optional {
+            color: #6a88b4;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+        .gateway-field input,
+        .gateway-field select,
+        .gateway-field textarea {
+            width: 100%;
+            border: 1px solid rgba(74,120,200, 0.2);
+            border-radius: 6px;
+            padding: 10px 12px;
+            color: #1a2438;
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+        .gateway-field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .gateway-field input::placeholder,
+        .gateway-field textarea::placeholder {
+            color: #b0c2de;
+        }
+        .gateway-field input:focus,
+        .gateway-field select:focus,
+        .gateway-field textarea:focus {
+            border-color: #4a78c8;
+            box-shadow: 0 0 0 4px rgba(74,120,200, 0.12);
+        }
+        .gateway-submit {
+            grid-column: 1 / -1;
+            border: 0;
+            border-radius: 4px;
+            padding: 12px 22px;
+            background: #4a78c8;
+            color: #fff;
+            font: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .gateway-submit:hover {
+            background: #6a90d8;
+            transform: translateY(-1px);
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width: 880px) {
+            nav { padding: 0 24px; }
+            #hero-1 { padding: 100px 24px 60px; }
+            #hero-2 { padding: 40px 24px 60px; }
+            #press-content { padding: 0; }
+            #cta { padding: 40px 24px 60px; }
+            .hero1-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+            .hero1-left { align-items: center; }
+            .hero1-stats { justify-content: center; }
+            .hero2-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero2-left { align-items: center; }
+            .hero2-report-card { display: none; }
+            .hero2-stats { grid-template-columns: repeat(2, 1fr); }
+            .admin-mapblock { grid-template-columns: 1fr; }
+            .admin-chart-row { grid-template-columns: 1fr; }
+            .findings-grid { grid-template-columns: 1fr; }
+            .scope-grid { grid-template-columns: 1fr; }
+            .scope-cell { border-right: none; }
+
+            /* Card and body responsive scaling */
+            .press-flag-inner { padding: 10px 24px; flex-direction: column; gap: 6px; text-align: center; }
+            .admin-body { padding: 24px 24px; }
+            .admin-lede { font-size: 18px; line-height: 1.45; margin-bottom: 24px; }
+            .admin-findings { padding: 24px 20px; margin: 24px 0; }
+            .finding .fnum { font-size: 32px; }
+            .admin-quote { font-size: 18px; padding: 16px 0 16px 20px; margin: 24px 0; }
+            .admin-mapblock .map-side svg { margin: 0 auto; display: block; }
+            #cta h2 { font-size: clamp(34px, 8vw, 56px); }
+            .gateway-panel { padding: 22px 18px 24px; }
+            .gateway-form { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- ═══════════════════════════════════════
+         STICKY NAV
+    ═══════════════════════════════════════ -->
+    <nav>
+        <div class="nav-brand">
+            <img src="new%20jhansi/logo_dark.webp" alt="Logo" style="height: 44px; width: auto; align-self: center; margin-right: 8px;">
+            <span class="nav-product"><span class="glow-dot"></span>ClimIntellio</span>
+            <span class="nav-by">by ClimAgro Analytics</span>
+        </div>
+        <a class="nav-cta" href="https://www.climagroanalytics.com/jhashi_report.php" target="_blank">Access Jhansi Report</a>
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════
+         SECTION 1 — CLIMINTELLIO DARK HERO
+    ═══════════════════════════════════════ -->
+    <section id="hero-1">
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="hero1-inner">
+            <div class="hero1-grid">
+                <!-- Left column: Headline and description -->
+                <div class="hero1-left">
+                    <div class="hero-label reveal">Climate Intelligence Platform</div>
+
+                    <h1 class="hero1-h1 reveal" style="transition-delay:.08s">
+                        Every district.<br>
+                        <em>Every block.</em><br>
+                        Every year since 1901.
+                    </h1>
+
+                    <p class="hero1-tagline reveal" style="transition-delay:.16s">
+                        ClimIntellio generates fresh historical climate intelligence — actionable, block-level analysis — for
+                        any district, any institution, any decision.
+                    </p>
+                </div>
+
+                <!-- Right column: Trends image -->
+                <div class="hero1-right reveal" style="transition-delay:.16s">
+                    <div class="hero1-image-wrap">
+                        <img src="new%20jhansi/up_trends.webp" alt="UP Climate Trends" class="hero1-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats in one line -->
+            <div class="hero1-stats reveal" style="transition-delay:.24s">
+                <div class="stat-pill"><span class="snum">123</span>&nbsp;years IMD rainfall data</div>
+                <div class="stat-pill"><span class="snum">73</span>&nbsp;years temperature data</div>
+                <div class="stat-pill"><span class="snum">600+</span>&nbsp;districts in scope</div>
+                <div class="stat-pill"><span class="snum">Block</span>&nbsp;level resolution</div>
+            </div>
+            
+        </div>
+    </section>
+
+    <div class="section-sep"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         SECTION 2 — JHANSI LANDING HERO
+    ═══════════════════════════════════════ -->
+    <section id="hero-2">
+        <div class="hero2-grid"></div>
+        <div class="hero2-glow"></div>
+
+        <div class="hero2-inner">
+            <!-- Left: headline + CTA -->
+            <div class="hero2-left reveal">
+                <div class="hero2-kicker">
+                    <span class="hero2-kicker-dot"></span>
+                    A 123-Year Climate Record · Bundelkhand
+                </div>
+
+                <h1 class="hero2-h1">
+                    Synergistic Effects of Rising Summer Temperatures &amp;<br>
+                    <em>Decreasing Summer Season Rainfall</em>
+                </h1>
+                <h2 class="hero2-h2">on Jhansi's Water Availability</h2>
+
+                <p class="hero2-desc">
+                    Average summer temperature: <strong style="color:#4a78c8">30°C</strong> &nbsp;·&nbsp;
+                    Average maximum summer temperature: <strong style="color:#4a78c8">37.53°C</strong> &nbsp;·&nbsp;
+                    Average peak summer maximum: <strong style="color:#e8b84b">44.90°C</strong>
+                </p>
+
+                <div class="hero2-cta">
+                    <a class="btn-lime" href="https://www.climagroanalytics.com/jhashi_report.php" target="_blank">
+                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"
+                            viewBox="0 0 24 24">
+                            <path d="M12 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                        Access Full Report
+                    </a>
+                    <button class="btn-ghost-2"
+                        onclick="document.getElementById('press-content').scrollIntoView({behavior:'smooth'})">
+                        Explore Findings ↓
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: visual card + stats -->
+            <div class="hero2-right reveal" style="transition-delay:.12s">
+                <div class="hero2-report-card">
+                    <img src="new%20jhansi/jhansi_report_cover.webp" alt="Jhansi Hydroclimatic Report Cover" style="width: 100%; height: auto; display: block;">
+                </div>
+
+                <div class="hero2-stats">
+                    <div class="hs2">
+                        <div class="hs2-n">124 yrs</div>
+                        <div class="hs2-l">Summer rainfall<br>records (1901–2024)</div>
+                    </div>
+                    <div class="hs2">
+                        <div class="hs2-n">830 mm</div>
+                        <div class="hs2-l">Annual rainfall<br>~30% below India avg</div>
+                    </div>
+                    <div class="hs2">
+                        <div class="hs2-n">44.90°C</div>
+                        <div class="hs2-l">Peak summer max<br>temp across years</div>
+                    </div>
+                    <div class="hs2">
+                        <div class="hs2-n">8 blocks</div>
+                        <div class="hs2-l">Spatial risk<br>profiling, Jhansi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-sep"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         SECTION 3 — ADMINISTRATIVE BRIEF CONTENT
+    ═══════════════════════════════════════ -->
+    <section id="press-content">
+        <div class="press-doc">
+            <div class="press-flag">
+                <div class="press-flag-inner">
+                    <span class="flag-name" style="color: #e63946;">ADMINISTRATION · BACKGROUND BRIEF</span>
+                    <span class="flag-meta">JHANSI · BUNDELKHAND · 2026 · NOT FOR DIRECT PUBLICATION</span>
+                </div>
+            </div>
+
+            <div class="admin-body">
+                <p class="admin-lede">Across <em>123 years of rainfall</em> and <em>73 years of temperature</em> records, the data describe a district in which the pre-monsoon season is becoming progressively drier in half its blocks, and progressively hotter in <span class="accent">every block, without exception.</span></p>
+
+                <!-- ─── BLOCK MAP ─── -->
+                <div class="admin-sec-label">Block-Level Pattern</div>
+                <div class="admin-mapblock">
+                    <div class="map-side">
+                        <svg viewBox="0 0 380 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="dotPattern" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+                                    <circle cx="3" cy="3" r="0.7" fill="#4a78c8" opacity="0.15"/>
+                                </pattern>
+                            </defs>
+                            <rect width="380" height="400" fill="url(#dotPattern)"/>
+
+                            <!-- TITLE -->
+                            <text x="20" y="28" font-family="Manrope, sans-serif" font-size="9" letter-spacing="2" fill="#4a78c8" font-weight="600">JHANSI · 8 BLOCKS</text>
+
+                            <!-- MOTH (top-left) -->
+                            <g>
+                                <rect x="50" y="50" width="120" height="80" rx="3" fill="#8b3a2e" stroke="#5a2418" stroke-width="1"/>
+                                <text x="110" y="84" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="17" font-weight="600">Moth</text>
+                                <text x="110" y="100" text-anchor="middle" fill="#f5d4c8" font-family="Manrope, sans-serif" font-size="9" letter-spacing="1">DRYING · WARMING</text>
+                            </g>
+
+                            <!-- BAMAUR (top-right, large) -->
+                            <g>
+                                <rect x="172" y="50" width="160" height="110" rx="3" fill="#8b3a2e" stroke="#5a2418" stroke-width="1"/>
+                                <text x="252" y="94" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="17" font-weight="600">Bamaur</text>
+                                <text x="252" y="110" text-anchor="middle" fill="#f5d4c8" font-family="Manrope, sans-serif" font-size="9" letter-spacing="1">DRYING · WARMING</text>
+                                <text x="252" y="128" text-anchor="middle" fill="#f5d4c8" font-family="Manrope, sans-serif" font-size="8.5" opacity="0.7">lowest summer rainfall</text>
+                            </g>
+
+                            <!-- CHIRGAON (small, center) -->
+                            <g>
+                                <rect x="118" y="132" width="74" height="48" rx="3" fill="#f4a261" stroke="#c08230" stroke-width="1"/>
+                                <text x="155" y="156" text-anchor="middle" fill="#1a1f3a" font-family="Cormorant Garamond, serif" font-size="13" font-weight="600">Chirgaon</text>
+                                <text x="155" y="170" text-anchor="middle" fill="#1a1f3a" font-family="Manrope, sans-serif" font-size="7.5" letter-spacing="0.5">DRYING · WARMING</text>
+                            </g>
+
+                            <!-- BADAGAON (middle-left) -->
+                            <g>
+                                <rect x="40" y="135" width="76" height="78" rx="3" fill="#4a78c8" stroke="#1c489c" stroke-width="1"/>
+                                <text x="78" y="170" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="13" font-weight="600">Badagaon</text>
+                                <text x="78" y="184" text-anchor="middle" fill="#f0f4ff" font-family="Manrope, sans-serif" font-size="7.5" letter-spacing="0.5">WETTING · WARMING</text>
+                            </g>
+
+                            <!-- GURSARAI (middle-right) -->
+                            <g>
+                                <rect x="195" y="165" width="135" height="75" rx="3" fill="#8b3a2e" stroke="#5a2418" stroke-width="1"/>
+                                <text x="262" y="200" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="15" font-weight="600">Gursarai</text>
+                                <text x="262" y="216" text-anchor="middle" fill="#f5d4c8" font-family="Manrope, sans-serif" font-size="9" letter-spacing="1">DRYING · WARMING</text>
+                            </g>
+
+                            <!-- BABINA (lower-left) -->
+                            <g>
+                                <rect x="40" y="218" width="90" height="105" rx="3" fill="#4a78c8" stroke="#1c489c" stroke-width="1"/>
+                                <text x="85" y="265" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="15" font-weight="600">Babina</text>
+                                <text x="85" y="281" text-anchor="middle" fill="#f0f4ff" font-family="Manrope, sans-serif" font-size="9" letter-spacing="1">WETTING · WARMING</text>
+                            </g>
+
+                            <!-- BANGRA (small, lower-center) -->
+                            <g>
+                                <rect x="135" y="218" width="80" height="50" rx="3" fill="#4a78c8" stroke="#1c489c" stroke-width="1"/>
+                                <text x="175" y="240" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="12" font-weight="600">Bangra</text>
+                                <text x="175" y="254" text-anchor="middle" fill="#f0f4ff" font-family="Manrope, sans-serif" font-size="7" letter-spacing="0.5">WETTING · WARMING</text>
+                            </g>
+
+                            <!-- MAURANIPUR (lower-right) -->
+                            <g>
+                                <rect x="220" y="245" width="120" height="78" rx="3" fill="#4a78c8" stroke="#1c489c" stroke-width="1"/>
+                                <text x="280" y="280" text-anchor="middle" fill="#fbfaf5" font-family="Cormorant Garamond, serif" font-size="14" font-weight="600">Mauranipur</text>
+                                <text x="280" y="296" text-anchor="middle" fill="#f0f4ff" font-family="Manrope, sans-serif" font-size="9" letter-spacing="1">WETTING · WARMING</text>
+                            </g>
+
+                            <!-- north indicator -->
+                            <g transform="translate(355,30)">
+                                <polygon points="0,-12 5,5 0,2 -5,5" fill="#4a78c8"/>
+                                <text x="0" y="20" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#4a78c8" font-weight="600">N</text>
+                            </g>
+
+                            <text x="20" y="380" font-family="Manrope, sans-serif" font-size="9" fill="#6a88b4" letter-spacing="0.5">Schematic. Sized roughly to relative block area.</text>
+                        </svg>
+                    </div>
+                    <div class="map-legend">
+                        <div class="legend-row">
+                            <div class="legend-swatch" style="background:#8b3a2e"></div>
+                            <div class="legend-text">
+                                <strong>Drying + Warming (4 blocks)</strong>
+                                <span>Moth, Bamaur, Chirgaon, Gursarai. Rainfall declining; temperatures rising.</span>
+                            </div>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-swatch" style="background:#f4a261"></div>
+                            <div class="legend-text">
+                                <strong>Smallest block in this group</strong>
+                                <span>Chirgaon (central). Drying trend persists despite small area.</span>
+                            </div>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-swatch" style="background:#4a78c8"></div>
+                            <div class="legend-text">
+                                <strong>Wetting + Warming (4 blocks)</strong>
+                                <span>Babina, Badagaon, Bangra, Mauranipur. Slight rainfall increase, but warming continues here too.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── HEADLINE FINDINGS ─── -->
+                <div class="admin-findings">
+                    <h3>What the long-term observations show</h3>
+                    <div class="findings-grid">
+                        <div class="finding">
+                            <div class="fnum">4 / 8</div>
+                            <div class="ftext">Blocks where pre-monsoon rainfall is on a declining trend across the 1901–2024 record. These are also the blocks already receiving the lowest absolute rainfall.</div>
+                        </div>
+                        <div class="finding">
+                            <div class="fnum">8 / 8</div>
+                            <div class="ftext">Blocks where pre-monsoon mean and maximum temperatures are rising over the 1951–2024 record. Warming is universal across the district.</div>
+                        </div>
+                        <div class="finding">
+                            <div class="fnum" style="font-size:28px; line-height:1.15; margin-bottom:12px;">Top<br><span style="font-size:18px;color:#1a2438;opacity:0.8">in Uttar Pradesh</span></div>
+                            <div class="ftext">Among the most pronounced upward trends in short-duration heat-wave intensity recorded anywhere in the state during the pre-monsoon months.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── DIVERGENCE CHART ─── -->
+                <div class="admin-sec-label">The Two Trends, Side by Side</div>
+                <div class="admin-chart-row">
+                    <div class="admin-chart">
+                        <h4>Pre-monsoon rainfall, by block</h4>
+                        <p class="chart-meta">Direction of change · 1901–2024</p>
+                        <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="360" height="200" fill="#ffffff" />
+                            <!-- axis -->
+                            <line x1="20" y1="100" x2="340" y2="100" stroke="#1a2438" stroke-width="0.5"/>
+                            <!-- 4 declining (down arrows) -->
+                            <g>
+                                <line x1="40" y1="60" x2="40" y2="140" stroke="#8b3a2e" stroke-width="2"/>
+                                <polygon points="35,135 45,135 40,148" fill="#8b3a2e"/>
+                                <text x="40" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Moth</text>
+                                <text x="40" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#8b3a2e" font-weight="600">DRYING</text>
+
+                                <line x1="80" y1="60" x2="80" y2="140" stroke="#8b3a2e" stroke-width="2"/>
+                                <polygon points="75,135 85,135 80,148" fill="#8b3a2e"/>
+                                <text x="80" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Bamaur</text>
+                                <text x="80" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#8b3a2e" font-weight="600">DRYING</text>
+
+                                <line x1="120" y1="65" x2="120" y2="135" stroke="#f4a261" stroke-width="2"/>
+                                <polygon points="115,130 125,130 120,143" fill="#f4a261"/>
+                                <text x="120" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Chirgaon</text>
+                                <text x="120" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#f4a261" font-weight="600">DRYING</text>
+
+                                <line x1="160" y1="60" x2="160" y2="140" stroke="#8b3a2e" stroke-width="2"/>
+                                <polygon points="155,135 165,135 160,148" fill="#8b3a2e"/>
+                                <text x="160" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Gursarai</text>
+                                <text x="160" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#8b3a2e" font-weight="600">DRYING</text>
+                            </g>
+
+                            <!-- divider -->
+                            <line x1="190" y1="20" x2="190" y2="180" stroke="#1a2438" stroke-width="0.5" stroke-dasharray="2,3" opacity="0.3"/>
+
+                            <!-- 4 increasing (up arrows) -->
+                            <g>
+                                <line x1="220" y1="60" x2="220" y2="140" stroke="#4a78c8" stroke-width="2"/>
+                                <polygon points="215,65 225,65 220,52" fill="#4a78c8"/>
+                                <text x="220" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Babina</text>
+                                <text x="220" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#4a78c8" font-weight="600">WETTING</text>
+
+                                <line x1="260" y1="60" x2="260" y2="140" stroke="#4a78c8" stroke-width="2"/>
+                                <polygon points="255,65 265,65 260,52" fill="#4a78c8"/>
+                                <text x="260" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Badagaon</text>
+                                <text x="260" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#4a78c8" font-weight="600">WETTING</text>
+
+                                <line x1="300" y1="65" x2="300" y2="135" stroke="#4a78c8" stroke-width="2"/>
+                                <polygon points="295,70 305,70 300,57" fill="#4a78c8"/>
+                                <text x="300" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Bangra</text>
+                                <text x="300" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#4a78c8" font-weight="600">WETTING</text>
+
+                                <line x1="335" y1="60" x2="335" y2="140" stroke="#4a78c8" stroke-width="2"/>
+                                <polygon points="330,65 340,65 335,52" fill="#4a78c8"/>
+                                <text x="335" y="172" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" fill="#1a2438">Mauranipur</text>
+                                <text x="335" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#4a78c8" font-weight="600">WETTING</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="admin-chart">
+                        <h4>Pre-monsoon temperature, by block</h4>
+                        <p class="chart-meta">Direction of change · 1951–2024</p>
+                        <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="360" height="200" fill="#ffffff" />
+                            <line x1="20" y1="160" x2="340" y2="160" stroke="#1a2438" stroke-width="0.5"/>
+                            <!-- all 8 rising -->
+                            <g>
+                                <line x1="40" y1="50" x2="40" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="35,55 45,55 40,40" fill="#e63946"/>
+                                <text x="40" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Moth</text>
+
+                                <line x1="80" y1="50" x2="80" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="75,55 85,55 80,40" fill="#e63946"/>
+                                <text x="80" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Bamaur</text>
+
+                                <line x1="120" y1="50" x2="120" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="115,55 125,55 120,40" fill="#e63946"/>
+                                <text x="120" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Chirgaon</text>
+
+                                <line x1="160" y1="50" x2="160" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="155,55 165,55 160,40" fill="#e63946"/>
+                                <text x="160" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Gursarai</text>
+
+                                <line x1="200" y1="50" x2="200" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="195,55 205,55 200,40" fill="#e63946"/>
+                                <text x="200" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Babina</text>
+
+                                <line x1="240" y1="50" x2="240" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="235,55 245,55 240,40" fill="#e63946"/>
+                                <text x="240" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Badagaon</text>
+
+                                <line x1="280" y1="50" x2="280" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="275,55 285,55 280,40" fill="#e63946"/>
+                                <text x="280" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Bangra</text>
+
+                                <line x1="320" y1="50" x2="320" y2="155" stroke="#e63946" stroke-width="2.5"/>
+                                <polygon points="315,55 325,55 320,40" fill="#e63946"/>
+                                <text x="320" y="178" text-anchor="middle" font-family="Manrope, sans-serif" font-size="8" fill="#1a2438">Maurani.</text>
+                            </g>
+                            <text x="20" y="32" font-family="Manrope, sans-serif" font-size="10" fill="#e63946" font-weight="600">↑ All 8 blocks warming</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- ─── PAGE 2 ─── -->
+                <div class="admin-page2">
+                    <div class="admin-sec-label">Scope of the Underlying Study</div>
+                    <div class="scope-grid">
+                        <div class="scope-cell">
+                            <div class="scope-label">Rainfall record analysed</div>
+                            <div class="scope-value">1901 — 2024</div>
+                            <div class="scope-note">123 years of daily gridded data</div>
+                        </div>
+                        <div class="scope-cell">
+                            <div class="scope-label">Temperature record analysed</div>
+                            <div class="scope-value">1951 — 2024</div>
+                            <div class="scope-note">73 years of daily gridded data</div>
+                        </div>
+                        <div class="scope-cell">
+                            <div class="scope-label">Data source</div>
+                            <div class="scope-value">India Meteorological Department</div>
+                            <div class="scope-note">Observational; not modelled or projected</div>
+                        </div>
+                        <div class="scope-cell">
+                            <div class="scope-label">Spatial resolution</div>
+                            <div class="scope-value">All 8 blocks</div>
+                            <div class="scope-note">Interpolated to block-level detail</div>
+                        </div>
+                        <div class="scope-cell">
+                            <div class="scope-label">Climatic baseline</div>
+                            <div class="scope-value">1981 — 2010</div>
+                            <div class="scope-note">Standard IPCC reference period</div>
+                        </div>
+                        <div class="scope-cell">
+                            <div class="scope-label">Focus season</div>
+                            <div class="scope-value">March — April — May</div>
+                            <div class="scope-note">Pre-monsoon · highest water stress</div>
+                        </div>
+                    </div>
+
+                    <div class="admin-sec-label">What the data describe</div>
+                    <p style="font-size:14px;line-height:1.75;color:#1a2438;margin-bottom:20px;">
+                        The report documents two parallel signals operating across the district during the months when water is already scarcest. Half the blocks are receiving progressively less rainfall in the pre-monsoon season. All eight blocks are experiencing rising air temperatures, with the largest gains in short-duration heat extremes that drive evaporation. Where these two signals overlap — in Moth, Bamaur, Chirgaon and Gursarai — the pre-monsoon water deficit is widening fastest.
+                    </p>
+
+                    <div class="admin-quote">
+                        "The data describe a self-reinforcing pattern: lower rainfall input combined with higher evaporative demand. The pre-monsoon water deficit in Jhansi is not an event. It is a trend the record has captured for over a century."
+                        <span class="qsig">— From the underlying report, ClimAgro Analytics 2026</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-sep"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         SECTION 4 — CLIMINTELLIO CTA
+    ═══════════════════════════════════════ -->
+    <section id="cta">
+        <div class="cta-bg-text">CLIMINTELLIO</div>
+        <div class="cta-inner">
+            <div class="cta-label reveal">ClimIntellio · Available Now</div>
+            <h2 class="reveal" style="transition-delay:.08s">
+                Your district has a climate story.<br><em>Let ClimIntellio tell it.</em>
+            </h2>
+            <p class="reveal" style="transition-delay:.16s">
+                The same intelligence that produced this Jhansi brief is available for any district in India — for
+                government institutions, financial bodies, watershed programs, and media desks.
+            </p>
+            <div class="cta-buttons reveal" style="transition-delay:.24s">
+                <a href="https://www.climagroanalytics.com/climintellio/request-form" target="_blank" class="cta-btn-primary">Request Your District Brief</a>
+                <a href="https://www.climagroanalytics.com/jhashi_report.php" target="_blank" class="cta-btn-ghost">Learn About ClimIntellio ↗</a>
+            </div>
+            <div class="cta-contact reveal" style="transition-delay:.32s">
+                <a href="mailto:contact@climagroanalytics.com">contact@climagroanalytics.com</a>
+                &nbsp;·&nbsp; <a href="https://www.climagroanalytics.com/" target="_blank">climagroanalytics.com</a>
+                &nbsp;·&nbsp; +91 9277 296 270
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         PDF GATEWAY OVERLAY
+    ═══════════════════════════════════════ -->
+    <div class="gateway-overlay" id="reportGateway" aria-hidden="true">
+        <div class="gateway-panel" role="dialog" aria-modal="true" aria-labelledby="gatewayTitle">
+            <div class="gateway-head">
+                <div>
+                    <h2 class="gateway-title" id="gatewayTitle">Access Jhansi Hydroclimatic Report</h2>
+                    <p class="gateway-subtitle">Fill out the form below and get your free PDF instantly.</p>
+                </div>
+                <button class="gateway-close" type="button" aria-label="Close gateway form">&times;</button>
+            </div>
+            <form class="gateway-form" id="gatewayForm">
+                <div class="gateway-field">
+                    <label for="gatewayName">Your name <span class="required">*</span></label>
+                    <input id="gatewayName" name="name" type="text" placeholder="e.g. John Smith" required>
+                </div>
+                <div class="gateway-field">
+                    <label for="gatewayPhone">Phone number <span class="optional">(optional)</span></label>
+                    <input id="gatewayPhone" name="phone" type="tel" placeholder="e.g. +91 98765 43210">
+                </div>
+                <div class="gateway-field full">
+                    <label for="gatewayEmail">Email address <span class="required">*</span></label>
+                    <input id="gatewayEmail" name="email" type="email" placeholder="e.g. john@email.com" required>
+                </div>
+                <div class="gateway-field full">
+                    <label for="gatewayRole">I am a <span class="required">*</span></label>
+                    <select id="gatewayRole" name="role" required>
+                        <option value="Government / Policy Maker">Government / Policy Maker</option>
+                        <option value="Agricultural Finance / NABARD">Agricultural Finance / NABARD</option>
+                        <option value="Researcher / Academic">Researcher / Academic</option>
+                        <option value="Press / Media">Press / Media</option>
+                        <option value="Farmer / FPO">Farmer / FPO</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="gateway-field full">
+                    <label for="gatewayLinkedIn">LinkedIn ID <span class="optional">(optional)</span></label>
+                    <input id="gatewayLinkedIn" name="linkedin" type="url" placeholder="e.g. https://linkedin.com/in/username">
+                </div>
+                <div class="gateway-field full">
+                    <label for="gatewayMessage">Anything you want us to know?</label>
+                    <textarea id="gatewayMessage" name="message" placeholder="Type here ..."></textarea>
+                </div>
+                <button class="gateway-submit" type="submit">Download Free PDF</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════ -->
+    <script>
+        /* — Cursor glow — */
+        const glowEl = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', e => {
+            glowEl.style.left = e.clientX + 'px';
+            glowEl.style.top = e.clientY + 'px';
+        });
+
+        /* — Particle canvas (Section 1 hero) — */
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+
+        function resize() {
+            W = canvas.width = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.vx = (Math.random() - 0.5) * 0.18;
+                this.vy = (Math.random() - 0.5) * 0.18;
+                this.size = Math.random() * 1.6 + 0.4;
+                this.alpha = Math.random() * 0.5 + 0.12;
+                this.color = Math.random() > 0.65 ? '#4a78c8' : '#e8b84b';
+            }
+            step() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+            }
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 90) {
+                        ctx.globalAlpha = (1 - d / 90) * 0.06;
+                        ctx.strokeStyle = '#4a78c8';
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, W, H);
+            drawConnections();
+            particles.forEach(p => { p.step(); p.draw(); });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        /* — Scroll reveal — */
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        reveves = reveals.forEach(el => observer.observe(el));
+
+        // Immediately fire hero reveals
+        document.querySelectorAll('#hero-1 .reveal').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), 100 + i * 80);
+        });
+
+        /* — PDF download gateway overlay — */
+        const gateway = document.getElementById('reportGateway');
+        const gatewayForm = document.getElementById('gatewayForm');
+        const gatewayClose = gateway.querySelector('.gateway-close');
+        const reportUrl = '../monsoon_report_2026.pdf';
+
+        document.querySelectorAll('[data-report-gateway]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                gateway.classList.add('is-open');
+                gateway.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('gatewayName').focus();
+            });
+        });
+
+        function closeGateway() {
+            gateway.classList.remove('is-open');
+            gateway.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        gatewayClose.addEventListener('click', closeGateway);
+        gateway.addEventListener('click', (event) => {
+            if (event.target === gateway) {
+                closeGateway();
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && gateway.classList.contains('is-open')) {
+                closeGateway();
+            }
+        });
+
+        gatewayForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitBtn = gatewayForm.querySelector('.gateway-submit');
+            const originalText = submitBtn ? submitBtn.innerText : null;
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Submitting...';
+            }
+
+            const payload = {
+                name: document.getElementById('gatewayName').value.trim(),
+                email: document.getElementById('gatewayEmail').value.trim(),
+                phone: document.getElementById('gatewayPhone').value.trim(),
+                title: document.getElementById('gatewayRole').value.trim(),
+                linkedin_id: document.getElementById('gatewayLinkedIn').value.trim(),
+                comment: document.getElementById('gatewayMessage').value.trim(),
+                url: window.location.href
+            };
+
+            try {
+                const response = await fetch('/api/submit_report_gateway', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error('Submission failed. ' + response.status + ' ' + errorText);
+                }
+
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.message || 'Submission failed. Please try again.');
+                }
+
+                closeGateway();
+                const pdfWindow = window.open(reportUrl, '_blank');
+                if (!pdfWindow || pdfWindow.closed || typeof pdfWindow.closed === 'undefined') {
+                    window.location.href = reportUrl;
+                }
+            } catch (error) {
+                console.error('Report gateway submission error:', error);
+                alert('Could not save your request. Please try again.\n' + error.message);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (originalText !== null) submitBtn.innerText = originalText;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
