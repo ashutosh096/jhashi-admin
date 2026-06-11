@@ -782,36 +782,104 @@
         /* ═══════════════════════════════════════
            RESPONSIVE
         ═══════════════════════════════════════ */
+
+        /* ── TABLET (≤ 880px) ── */
         @media (max-width: 880px) {
-            nav { padding: 0 24px; }
-            #hero-1 { padding: 100px 24px 60px; }
+            nav { padding: 0 20px; height: 60px; }
+            .nav-by { display: none; }
+            .nav-cta { font-size: 12px; padding: 7px 14px; }
+
+            #hero-1 { padding: 90px 24px 50px; min-height: auto; }
             #hero-2 { padding: 40px 24px 60px; }
             #press-content { padding: 0; }
             #cta { padding: 40px 24px 60px; }
-            .hero1-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+
+            .hero1-grid { grid-template-columns: 1fr; gap: 28px; text-align: center; }
             .hero1-left { align-items: center; }
-            .hero1-stats { justify-content: center; }
+            .hero1-stats { justify-content: center; flex-wrap: wrap; }
+
             .hero2-inner { grid-template-columns: 1fr; text-align: center; }
-            .hero2-left { align-items: center; }
+            .hero2-left { align-items: center; max-width: 100%; }
             .hero2-report-card { display: none; }
             .hero2-stats { grid-template-columns: repeat(2, 1fr); }
+            .hero2-cta { justify-content: center; }
+
             .admin-mapblock { grid-template-columns: 1fr; }
             .admin-chart-row { grid-template-columns: 1fr; }
             .findings-grid { grid-template-columns: 1fr; }
             .scope-grid { grid-template-columns: 1fr; }
             .scope-cell { border-right: none; }
 
-            /* Card and body responsive scaling */
-            .press-flag-inner { padding: 10px 24px; flex-direction: column; gap: 6px; text-align: center; }
-            .admin-body { padding: 24px 24px; }
+            .press-flag-inner { padding: 10px 20px; flex-direction: column; gap: 6px; text-align: center; }
+            .admin-body { padding: 28px 20px; }
             .admin-lede { font-size: 18px; line-height: 1.45; margin-bottom: 24px; }
             .admin-findings { padding: 24px 20px; margin: 24px 0; }
             .finding .fnum { font-size: 32px; }
             .admin-quote { font-size: 18px; padding: 16px 0 16px 20px; margin: 24px 0; }
             .admin-mapblock .map-side svg { margin: 0 auto; display: block; }
-            #cta h2 { font-size: clamp(34px, 8vw, 56px); }
+
+            .report-panel { flex-direction: column; align-items: flex-start; gap: 18px; padding: 20px; }
+            .report-panel-btn { width: 100%; justify-content: center; }
+
+            #cta h2 { font-size: clamp(32px, 8vw, 56px); }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .cta-btn-primary, .cta-btn-ghost { width: 100%; max-width: 320px; justify-content: center; }
+
             .gateway-panel { padding: 22px 18px 24px; }
             .gateway-form { grid-template-columns: 1fr; }
+        }
+
+        /* ── MOBILE (≤ 600px) ── */
+        @media (max-width: 600px) {
+            nav { padding: 0 16px; height: 56px; }
+            .nav-product { font-size: 18px; }
+            .nav-brand img { height: 32px; }
+
+            #hero-1 { padding: 80px 16px 44px; }
+            .hero1-h1 { font-size: clamp(32px, 9vw, 52px); }
+            .hero1-tagline { font-size: 15px; }
+            .stat-pill { font-size: 11px; padding: 8px 14px; }
+            .stat-pill .snum { font-size: 17px; }
+
+            #hero-2 { padding: 36px 16px 48px; }
+            .hero2-h1 { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
+            .hero2-h2 { font-size: clamp(1.1rem, 4.5vw, 1.4rem); }
+            .hero2-desc { font-size: 14px; }
+            .hero2-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .btn-lime, .btn-ghost-2 { width: 100%; justify-content: center; font-size: 13px; }
+
+            .press-flag-inner { padding: 10px 16px; }
+            .admin-body { padding: 24px 16px; }
+            .admin-lede { font-size: 16px; }
+            .admin-findings { padding: 20px 16px; }
+            .findings-grid { grid-template-columns: 1fr; gap: 16px; }
+            .finding .fnum { font-size: 28px; }
+            .admin-quote { font-size: 16px; padding: 14px 0 14px 16px; }
+            .scope-grid { grid-template-columns: 1fr; }
+            .admin-chart { padding: 16px 14px; }
+            .admin-chart h4 { font-size: 15px; }
+
+            .report-panel { padding: 18px 16px; gap: 14px; }
+            .report-panel-title { font-size: 15px; }
+
+            #cta { padding: 36px 16px 48px; }
+            #cta h2 { font-size: clamp(28px, 9vw, 44px); }
+            #cta > .cta-inner > p { font-size: 15px; }
+
+            .gateway-panel { padding: 18px 14px; border-radius: 8px; }
+            .gateway-title { font-size: 18px; }
+        }
+
+        /* ── SMALL PHONES (≤ 400px) ── */
+        @media (max-width: 400px) {
+            .nav-cta { display: none; }
+            .hero1-h1 { font-size: 28px; }
+            .hero2-stats { grid-template-columns: 1fr 1fr; }
+            .stat-pill { font-size: 10px; padding: 7px 10px; }
+            .admin-body { padding: 18px 12px; }
+            .press-flag-inner { padding: 8px 12px; font-size: 9px; }
+            .report-panel { padding: 14px 12px; }
+            #cta h2 { font-size: 26px; }
         }
     </style>
 </head>
